@@ -35,3 +35,30 @@ ORDER BY rating ASC;
 SELECT title, release_date, length FROM movies
 WHERE length > 150
 ORDER BY length ASC;
+
+-- BETWEEN y LIKE
+-- Mostrar el título y rating de todas las películas cuyo título incluya Toy Story.
+SELECT title, rating FROM movies
+WHERE title LIKE '%toy%';
+
+-- Mostrar a todos los actores cuyos nombres empiecen con Sam.
+SELECT first_name, last_name FROM actors
+WHERE first_name LIKE 'sam%';
+
+-- Muestra los nombres y apellidos de los actores ordenados por su rating de forma descendente.
+SELECT first_name AS Nombre, last_name AS Apellido, rating AS Ranking FROM actors
+WHERE rating
+ORDER BY rating DESC;
+
+-- Muestra los títulos y las fechas de lanzamiento de las películas ordenadas por su rating de forma descendente.
+SELECT title AS Titulo, release_date AS Lanzamiento, rating AS Ranking FROM movies
+WHERE rating
+ORDER BY rating DESC;
+
+-- Muestra los nombres y apellidos de los actores cuyos nombres contienen la letra "a".
+SELECT first_name AS Nombre, last_name AS Apellido FROM actors 
+WHERE first_name LIKE 'a%';
+
+-- Mostrar el título de las películas que salieron entre el ‘2004-01-01’ y ‘2008-12-31’.
+SELECT title AS Titulo, DATE_FORMAT(release_date, '%Y-%M-%d') AS Lanzamiento FROM movies
+WHERE release_date BETWEEN '2004-01-01' AND '2008-12-31';
