@@ -5,7 +5,7 @@
 SELECT * FROM movies;
 
 -- Mostrar el nombre, apellido y rating de todos los actores.
-SELECT first_name,last_name,rating FROM movies_db.actors;
+SELECT first_name AS Nombre,last_name AS Apellido,rating FROM movies_db.actors;
 
 -- Mostrar el título de todas las series.
 SELECT title  FROM series;
@@ -20,7 +20,7 @@ WHERE rating >= 7.5;
 
 -- Mostrar el título de las películas, el rating y los premios de las películas con un rating mayor a 7,5 y con más de dos premios.
 SELECT title, rating, awards FROM movies
-WHERE rating >= 7.5;
+WHERE rating >= 7.5 AND awards > 2;
 
 -- Mostrar el título de las películas y el rating ordenadas por rating en forma ascendente.
 SELECT title, rating FROM movies 
@@ -28,7 +28,7 @@ ORDER BY  rating ASC;
 
 -- Mostrar actores cuyo rating se encuentre entre 4.0 y 10.0.
 SELECT last_name, first_name, rating FROM actors
-WHERE rating BETWEEN 3.9 AND 10.1
+WHERE rating BETWEEN 4 AND 10
 ORDER BY rating ASC;
 
 -- Muestra los títulos y las fechas de lanzamiento de las películas cuya duración sea más de 150 minutos.
@@ -39,7 +39,7 @@ ORDER BY length ASC;
 -- BETWEEN y LIKE
 -- Mostrar el título y rating de todas las películas cuyo título incluya Toy Story.
 SELECT title, rating FROM movies
-WHERE title LIKE '%toy%';
+WHERE title LIKE '%Toy Story%';
 
 -- Mostrar a todos los actores cuyos nombres empiecen con Sam.
 SELECT first_name, last_name FROM actors
@@ -57,7 +57,7 @@ ORDER BY rating DESC;
 
 -- Muestra los nombres y apellidos de los actores cuyos nombres contienen la letra "a".
 SELECT first_name AS Nombre, last_name AS Apellido FROM actors 
-WHERE first_name LIKE 'a%';
+WHERE first_name LIKE '%a%';
 
 -- Mostrar el título de las películas que salieron entre el ‘2004-01-01’ y ‘2008-12-31’.
 SELECT title AS Titulo, DATE_FORMAT(release_date, '%Y-%M-%d') AS Lanzamiento FROM movies
