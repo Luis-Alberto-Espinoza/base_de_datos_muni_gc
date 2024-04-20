@@ -1,7 +1,4 @@
 show tables;
-SELECT * FROM Clientes
-WHERE Compania LIKE "%?%";
-
 -- Consignas
 
 -- Categorías y productos
@@ -25,7 +22,7 @@ SELECT Productonombre nombre, ProductoID ID FROM Productos WHERE ProveedorID = 8
 -- 6. Queremos conocer todos los productos cuyo precio unitario se encuentre entre 10 y 22.
 SELECT ProductoNombre Nombre, PrecioUnitario Precio 
 FROM Productos
-WHERE PrecioUnitario between 10 AND 22
+WHERE PrecioUnitario BETWEEN 10 AND 22
 ORDER BY PrecioUnitario ASC;
 
 -- 7. Se define que un producto hay que solicitarlo al proveedor si sus unidades en stock son menores al Nivel de Reorden. ¿Hay productos por solicitar?
@@ -82,8 +79,6 @@ ORDER BY EmpleadoID;
 
 /*
 Consultas queries ML - Parte II
-
-En esta segunda parte vamos a intensificar la práctica de consultas SELECT, añadiendo ALIAS, LIMIT y OFFSET.
 */
 
 -- Productos
@@ -132,16 +127,47 @@ FROM FacturaDetalle;
 
 /*
 ¡Extras!
-
-¿Te sobró tiempo? ¿Querés seguir practicando?
-
-Te dejamos unos ejercicios extras a partir de la misma base:*/
-
+*/
 -- 1. Obtener un listado de todos los clientes que viven en “Brazil" o “Mexico”, o que tengan un título que empiece con “Sales”.
+SELECT ClienteID, Titulo, Pais 
+FROM Clientes
+WHERE Pais = "Brazil" OR Pais = "mexico" OR Titulo LIKE "Sales%";
+
 -- 2. Obtener un listado de todos los clientes que pertenecen a una compañía que empiece con la letra "A".
+SELECT ClienteID, Compania
+FROM Clientes
+WHERE Compania LIKE "A%";
+
 -- 3. Obtener un listado con los datos: Ciudad, Contacto y renombrarlo como Apellido y Nombre, Titulo y renombrarlo como Puesto, de todos los clientes que sean de la ciudad "Madrid".
+SELECT Contacto AS 'Nombre y Apellido', Ciudad, Titulo AS Puesto 
+FROM Clientes
+WHERE Ciudad = "Madrid";
+
 -- 4. Obtener un listado de todas las facturas con ID entre 10000 y 10500
+SELECT FacturaID
+FROM Facturas
+WHERE FacturaID BETWEEN 10000 AND 10500;
+
 -- 5. Obtener un listado de todas las facturas con ID entre 10000 y 10500 o de los clientes con ID que empiecen con la letra “B”.
+SELECT FacturaID, ClienteID
+FROM Facturas
+WHERE FacturaID BETWEEN 10000 AND 10500 OR ClienteID LIKE "B%";
+
 -- 6. ¿Existen facturas que la ciudad de envío sea “Vancouver” o que utilicen el correo 3?
--- 7. ¿Cuál es el ID de empleado de “Buchanan”?
+SELECT CiudadEnvio, EnvioVia AS Correo
+FROM Facturas
+WHERE CiudadEnvio = 'Vancouver' OR EnvioVia = 3;
+
+-- 7. ¿Cuál es el ID del empleado de **APELLIDO** “Buchanan”?
+SELECT EmpleadoID, Nombre, Apellido, Ciudad
+FROM Empleados
+WHERE Apellido ='Buchanan';
+
 -- 8. ¿Existen facturas con EmpleadoID del empleado del ejercicio anterior? (No relacionar, sino verificar que existan facturas)
+SELECT FacturaID , EmpleadoID
+FROM Facturas
+WHERE EmpleadoID = 5;
+
+SELECT count(FacturaID) AS 'Cantidad de Facturas' , EmpleadoID
+FROM Facturas
+WHERE EmpleadoID = 5;
