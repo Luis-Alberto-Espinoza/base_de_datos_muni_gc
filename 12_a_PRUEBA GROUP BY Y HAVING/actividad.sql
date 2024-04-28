@@ -27,7 +27,7 @@ SELECT * FROM albumes
 WHERE titulo ="Let There Be Rock";
 SELECT * FROM canciones
 WHERE id_album = 4;
-SELECT SUM(milisegundos) FROM canciones
+SELECT AVG(milisegundos) FROM canciones
 WHERE id_album = 4;
 -- opciones(298517.1050, 326547.9050, 306657.3750, 305547.6050)
 -- respuesta 2453259
