@@ -68,5 +68,102 @@ FROM FacturaDetalle
 ORDER BY PrecioUnitario DESC
 LIMIT 1;
 
+-- Consultas queries XL parte II - JOIN
 
 
+-- Generar un listado de todas las facturas del empleado 'Buchanan'. 
+SELECT f.FacturaID, f.EmpleadoID FROM Facturas AS f
+INNER JOIN Empleados AS e 
+ON e.EmpleadoID = f.EmpleadoID
+WHERE e.Apellido = 'Buchanan';
+
+
+
+-- Generar un listado con todos los campos de las facturas del correo 'Speedy Express'.
+SELECT Compania FROM Correos;
+SELECT * FROM Facturas AS f 
+INNER JOIN Correos AS c 
+ON c.CorreoID = f.EnvioVia
+WHERE c.Compania = "Speedy Express";
+
+
+-- Generar un listado de todas las facturas con el nombre y apellido de los empleados.
+SELECT f.FacturaID, f.EmpleadoID, e.Nombre AS nombre_Empleado, e.Apellido AS Apellido_Empleado  
+FROM Facturas AS f 
+INNER JOIN Empleados AS e 
+ON e.EmpleadoID = f.EmpleadoID;
+
+-- Mostrar un listado de las facturas de todos los clientes “Owner” y país de envío “USA”.
+-- owner esta en titulo de Clientes
+SELECT * FROM Clientes
+WHERE titulo = "Owner" AND Pais = "USA";
+SELECT f.FacturaID, c.ClienteID, c.Titulo, c.Pais FROM Facturas f 
+INNER JOIN Clientes c 
+ON c.ClienteID = f.clienteID
+WHERE c.titulo = "Owner" AND c.Pais = "USA";
+
+-- Mostrar todos los campos de las facturas del empleado cuyo apellido sea “Leverling” o que incluyan el producto id = “42”.
+SELECT Nombre, Apellido, EmpleadoID FROM Empleados
+WHERE Apellido = "Leverling";
+SELECT * FROM FacturaDetalle
+WHERE ProductoID = 42;
+SELECT * FROM Productos 
+WHERE ProductoID = 42;
+
+SELECT * FROM Facturas f 
+INNER JOIN Empleados  e 
+ON e.EmpleadoID = f.EmpleadoID
+WHERE e.Apellido = "Leverling";
+
+SELECT fd.* FROM Facturas f 
+INNER JOIN FacturaDetalle  fd 
+ON fd.FacturaID = f.FacturaID
+WHERE fd.ProductoID =42;
+
+SELECT f.FacturaID, e.EmpleadoID, e.Apellido, p.ProductoID
+FROM Facturas f
+INNER JOIN Empleados e ON f.EmpleadoID = e.EmpleadoID
+INNER JOIN FacturaDetalle fd ON f.FacturaID = fd.FacturaID
+INNER JOIN Productos p ON fd.ProductoID = p.ProductoID
+WHERE Apellido = 'Leverling' OR p.ProductoID = 42;
+
+
+-- Mostrar todos los campos de las facturas del empleado cuyo apellido sea “Leverling” y que incluya los producto id = “80” o ”42”.
+SELECT count(*) FROM Productos
+WHERE ProductoID = 42;
+
+SELECT count(*) FROM Productos
+WHERE ProductoID = 80;
+
+SELECT f.FacturaID, e.EmpleadoID, e.Apellido, p.ProductoID
+FROM Facturas f
+INNER JOIN Empleados e ON f.EmpleadoID = e.EmpleadoID
+INNER JOIN FacturaDetalle fd ON f.FacturaID = fd.FacturaID
+INNER JOIN Productos p ON fd.ProductoID = p.ProductoID
+WHERE Apellido = 'Leverling' OR (p.ProductoID = 80 OR p.ProductoID = 42);
+
+-- Generar un listado con los cinco mejores clientes, según sus importes de compras total (PrecioUnitario * Cantidad).
+SELECT * FROM Clientes;
+SELECT * FROM Facturas;
+SELECT * FROM FacturaDetalle;
+
+SELECT c.ClienteID, ROUND(SUM(fd.PrecioUnitario*fd.Cantidad), 2) AS Total_DE_Compras 
+FROM Facturas f 
+INNER JOIN Clientes AS c 
+ON c.ClienteID = f.ClienteID 
+INNER JOIN FacturaDetalle AS fd 
+ON fd.FacturaID = f.FacturaID
+GROUP BY c.ClienteID
+ORDER BY Total_DE_Compras desc
+LIMIT 5;
+
+-- Generar un listado de facturas, con los campos id, nombre y apellido del cliente, 
+-- fecha de factura, país de envío, Total, ordenado de manera descendente por fecha de factura y limitado a 10 filas.
+SELECT f.FacturaID, c.ClienteID, c.Compania, f.FechaFactura, f.PaisEnvio, ROUND(SUM(fd.PrecioUnitario*fd.Cantidad), 2) AS Total_DE_Compras  FROM Facturas f
+INNER JOIN Clientes AS c 
+ON c.ClienteID = f.ClienteID 
+INNER JOIN FacturaDetalle AS fd 
+ON fd.FacturaID = f.FacturaID
+GROUP BY f.FacturaID
+ORDER BY f.FechaFactura DESC
+LIMIT 10;
